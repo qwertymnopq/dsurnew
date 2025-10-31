@@ -1,0 +1,51 @@
+
+Multiple Regression Model:
+a) Develop Multiple Regression model for any dataset.
+
+    # Load dataset
+    data("mtcars")
+    head(mtcars)
+    
+    # Fit Multiple Regression Model: mpg ~ disp + hp + wt
+    model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+    summary(model)  # model details
+    
+    # Predict mpg
+    mtcars$predicted_mpg <- predict(model)
+    
+    # Plot Actual vs Predicted
+    library(ggplot2)
+    ggplot(mtcars, aes(x = mpg, y = predicted_mpg)) +
+      geom_point(color = "blue") +
+      geom_abline(intercept = 0, slope = 1, color = "red", linetype = "dashed") +
+      ggtitle("Actual vs Predicted MPG")
+    
+
+
+
+b)	Apply Multiple Regression Model to predict the data on any dataset.
+
+      # Load dataset
+      data(mtcars)
+      head(mtcars)
+      # Build Multiple Regression Model
+      model <- lm(mpg ~ disp + hp + wt, data = mtcars)
+      
+      # View model summary (coefficients, R-squared, p-values)
+      summary(model)
+      
+      # Predict mpg for existing data (training data)
+      predicted_mpg <- predict(model, mtcars)
+      
+      # Calculate Mean Squared Error
+      mse <- mean((mtcars$mpg - predicted_mpg)^2)
+      print(paste("Mean Squared Error:", round(mse, 2)))
+      
+      # Predict mpg for new data
+      new_data <- data.frame(
+        disp = c(200, 150),
+        hp = c(100, 80),
+        wt = c(2.5, 2.2)
+      )
+      predicted_new <- predict(model, new_data)
+      print(predicted_new)
