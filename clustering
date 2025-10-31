@@ -1,0 +1,56 @@
+
+11 a) Clustering algorithms for unsupervised classification.
+#Week - 11a
+    # Load library
+    library(dbscan)
+    # Load dataset
+    data(iris)
+    head(iris)
+    iris_data <- iris[,1:4]  # Numeric features only
+    # K-Means Clustering
+    set.seed(123)
+    kmeans_res <- kmeans(iris_data, centers=3)
+    iris$KMeansCluster <- as.factor(kmeans_res$cluster)
+    cat("K-Means Clustering:\n")
+    print(table(iris$Species, iris$KMeansCluster))
+    cat("\n")
+    # Hierarchical Clustering
+    dist_mat <- dist(iris_data)  # Distance matrix
+    hc <- hclust(dist_mat, method="ward.D2")
+    hc_clusters <- cutree(hc, k=3)
+    iris$HierCluster <- as.factor(hc_clusters)
+    cat("Hierarchical Clustering:\n")
+    print(table(iris$Species, iris$HierCluster))
+
+
+
+
+11 b) Plot the cluster data using R visualizations.
+#Week -11b
+# Load required libraries
+library(ggplot2)
+# Load dataset
+data(iris)
+iris_data <- iris[, 1:4]  # Numeric features only
+# K-Means Clustering
+  set.seed(123)
+  kmeans_res <- kmeans(iris_data, centers = 3)
+  iris$KMeansCluster <- as.factor(kmeans_res$cluster)
+# Hierarchical Clustering
+  dist_mat <- dist(iris_data)  # Distance matrix
+  hc <- hclust(dist_mat, method = "ward.D2")  # Hierarchical clustering
+  hc_clusters <- cutree(hc, k = 3)
+  iris$HierCluster <- as.factor(hc_clusters)
+# Visualization 1: K-Means Clusters
+  ggplot(iris, aes(Petal.Length, Petal.Width, color = KMeansCluster)) +
+    geom_point(size = 3) +
+    ggtitle("K-Means Clustering (3 Clusters)") +
+    theme_minimal()
+# Visualization 2: Hierarchical Clustering Dendrogram
+  plot(hc,  
+       main = "Hierarchical Clustering Dendrogram (ward.D2 method)",
+       xlab = "",
+       sub = "",
+       labels = FALSE,  # Hide sample labels for clarity
+       cex = 0.6)
+  rect.hclust(hc, k = 3, border = "red")  # Highlight 3 clusters with boxes
