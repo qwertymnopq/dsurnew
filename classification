@@ -1,0 +1,105 @@
+a) Install relevant package for classification.
+b) Implement and evaluate the performance of various classifiers with
+different datasets.
+
+# Load libraries
+library(caret)
+library(e1071)
+library(randomForest)
+library(rpart)
+library(nnet)   # for multinom()
+
+# Load dataset
+data(iris)
+set.seed(123)
+
+# Split data (70% train, 30% test)
+trainIndex <- createDataPartition(iris$Species, p = 0.7, list = FALSE)
+train <- iris[trainIndex, ]
+test  <- iris[-trainIndex, ]
+
+# ----- Models -----
+
+# 1. Decision Tree
+dt_model <- rpart(Species ~ ., data = train, method = "class")
+dt_pred <- predict(dt_model, test, type = "class")
+
+# 2. Random Forest
+rf_model <- randomForest(Species ~ ., data = train)
+rf_pred <- predict(rf_model, test)
+
+# 3. SVM
+svm_model <- svm(Species ~ ., data = train)
+svm_pred <- predict(svm_model, test)
+
+# 4. Naive Bayes
+nb_model <- naiveBayes(Species ~ ., data = train)
+nb_pred <- predict(nb_model, test)
+
+# 5. Logistic Regression (Multinomial)
+log_model <- multinom(Species ~ ., data = train)
+log_pred <- predict(log_model, test)
+
+# ----- Evaluation Function -----
+evaluate <- function(actual, pred, name) {
+  cat("=== ", name, " ===\n")
+  cm <- confusionMatrix(pred, actual)
+  print(cm$overall['Accuracy'])       # Accuracy
+  print(cm$byClass[, c("Precision", "Recall", "F1")])  # Precision, Recall, F1 per class
+  cat("\n")
+}
+
+# ----- Evaluate All Models -----
+evaluate(test$Species, dt_pred, "Decision Tree")
+evaluate(test$Species, rf_pred, "Random Forest")
+evaluate(test$Species, svm_pred, "SVM")
+evaluate(test$Species, nb_pred, "Naive Bayes")
+evaluate(test$Species, log_pred, "Logistic Regression")
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+
+#on mtcars
+# Load libraries
+library(caret)
+library(e1071)
+library(randomForest)
+library(rpart)
+library(nnet)
+
+# Dataset
+data(mtcars)
+mtcars$mpg_level <- ifelse(mtcars$mpg > median(mtcars$mpg), "High", "Low")
+mtcars$mpg_level <- as.factor(mtcars$mpg_level)
+
+set.seed(123)
+trainIndex <- createDataPartition(mtcars$mpg_level, p = 0.7, list = FALSE)
+train <- mtcars[trainIndex, ]
+test  <- mtcars[-trainIndex, ]
+
+# Models
+dt_model  <- rpart(mpg_level ~ . - mpg, data = train, method = "class")
+rf_model  <- randomForest(mpg_level ~ . - mpg, data = train)
+svm_model <- svm(mpg_level ~ . - mpg, data = train)
+nb_model  <- naiveBayes(mpg_level ~ . - mpg, data = train)
+log_model <- multinom(mpg_level ~ . - mpg, data = train)
+
+# Predictions
+dt_pred  <- predict(dt_model, test, type = "class")
+rf_pred  <- predict(rf_model, test)
+svm_pred <- predict(svm_model, test)
+nb_pred  <- predict(nb_model, test)
+log_pred <- predict(log_model, test)
+
+# Simple accuracy function
+check_accuracy <- function(actual, predicted, model_name) {
+  acc <- mean(actual == predicted)
+  cat(model_name, "Accuracy:", round(acc, 3), "\n")
+}
+
+# Evaluate all
+check_accuracy(test$mpg_level, dt_pred,  "Decision Tree")
+check_accuracy(test$mpg_level, rf_pred,  "Random Forest")
+check_accuracy(test$mpg_level, svm_pred, "SVM")
+check_accuracy(test$mpg_level, nb_pred,  "Naive Bayes")
+check_accuracy(test$mpg_level, log_pred, "Logistic Regression")
