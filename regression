@@ -1,0 +1,52 @@
+Regression Model:
+
+a) Import a data from web storage. Name the dataset and now do Logistic Regression 
+to find out relation between variables that are affecting the admission of a student
+in an institute based on his or her GRE score, GPA obtained and rank of the student. 
+Also check if the model is fit or not. Require (foreign), require (MASS).
+
+# Load libraries
+library(readxl)
+library(MASS)
+library(foreign)
+# Import dataset
+  data <- read_excel("C:\\Users\\Ameen khatoon\\OneDrive\\Desktop\\admission_data.xlsx")
+  head(data)
+# Convert Admit to factor
+  data$Admit <- as.factor(data$Admit)
+# Logistic Regression Model
+  model <- glm(Admit ~ GRE + GPA + Rank, data = data, family = binomial)
+# Summary of the model
+  summary(model)
+# ---- Check Model Fit ----
+# Null model (without predictors)
+  model_null <- glm(Admit ~ 1, data = data, family = binomial)
+# Compare models using Chi-square test
+  anova(model_null, model, test = "Chisq")
+# Pseudo R-squared (goodness of fit)
+  install.packages("pscl")
+  library(pscl)
+  pR2(model)
+
+b) Linear Regression
+
+# Load libraries and dataset
+  library(ggplot2)
+  data("iris")
+  #Fit a linear regression model
+    model <- lm(Sepal.Length ~ Sepal.Width + Petal.Length + Petal.Width, data = iris)
+  # Print model summary
+    summary(model)
+  # Predict Sepal.Length for all samples
+    predictions <- predict(model, newdata = iris)
+  # Compare actual vs predicted values
+    head(data.frame(Actual = iris$Sepal.Length, Predicted = predictions))
+  # Visualization: Actual vs Predicted
+    ggplot(data.frame(iris, Predicted = predict(model)),
+           aes(Sepal.Length, Predicted)) +
+      geom_point(color = "blue") +
+      geom_abline(intercept = 0, slope = 1, color = "red", lty = 2) +
+      labs(title = "Actual vs Predicted Sepal Length",
+           x = "Actual", y = "Predicted")
+
+
