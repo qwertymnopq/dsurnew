@@ -1,0 +1,35 @@
+Correlation and Covariance:
+a) Develop a program to find the correlation matrix on iris data.
+Code:
+
+  data(iris)
+  iris_numeric <- iris[, 1:4]
+  cor_matrix <- cor(iris_numeric)
+  print(cor_matrix)
+
+b) Plot the correlation plot on dataset and visualize giving an overview of relationships among data on iris data
+
+Code:
+
+    install.packages("corrplot")
+    library(corrplot)
+    cor_matrix <- cor(iris[, 1:4])
+    corrplot(cor_matrix, method="circle", type="upper", tl.col="black", tl.srt=45, 
+             addCoef.col="blue", title="Correlation Plot for Iris Dataset")
+    
+        title = "Correlation Plot for Iris Dataset"
+    )
+
+c)Plot the correlation plot on dataset and visualize giving an overview of relationships among data on iris data
+
+Code:
+
+    install.packages("corrplot")
+    library(corrplot)
+    cor_matrix <- cor(iris[, 1:4])
+    corrplot(cor_matrix, method="circle", type="upper", tl.col="black", tl.srt=45, 
+             addCoef.col="blue", title="Correlation Plot for Iris Dataset")
+    
+        title = "Correlation Plot for Iris Dataset"
+    )
+
