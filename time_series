@@ -1,0 +1,39 @@
+a) Plot the Time series data using R visualizations.
+  
+  library(ggplot2)
+  library(ggfortify)
+  
+  data("AirPassengers")
+  head(AirPassengers)
+  # Base plot
+  plot(AirPassengers, main = "AirPassengers (1949–1960)", ylab = "Passengers", col = "blue")
+  
+  # ggplot2 plot
+  autoplot(AirPassengers) +
+    ggtitle("AirPassengers (1949–1960)") +
+    xlab("Year") + ylab("Passengers")
+
+b) Time series Forecasting using Exponential smoothing, ARIMA models.
+
+    library(forecast)
+    library(ggplot2)
+    
+    data("AirPassengers")
+    
+    # Exponential Smoothing (ETS) Forecast
+    fit_ets <- ets(AirPassengers)
+    print(fit_ets)  # display ETS model details
+    
+    autoplot(forecast(fit_ets, h = 10)) +
+      ggtitle("Exponential Smoothing Forecast") +
+      xlab("Year") + ylab("Passengers")
+    
+    # ARIMA Forecast
+    fit_arima <- auto.arima(AirPassengers)
+    print(fit_arima)  # display ARIMA model details
+    
+    autoplot(forecast(fit_arima, h = 10)) +
+      ggtitle("ARIMA Forecast") +
+      xlab("Year") + ylab("Passengers")
+
+      
