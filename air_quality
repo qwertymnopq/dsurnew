@@ -1,0 +1,29 @@
+#Extra program
+# Load data
+data("airquality")
+df <- airquality
+
+# Replace missing values with mean
+df$Ozone[is.na(df$Ozone)] <- mean(df$Ozone, na.rm = TRUE)
+df$Solar.R[is.na(df$Solar.R)] <- mean(df$Solar.R, na.rm = TRUE)
+
+# Scatter plot
+plot(df$Solar.R, df$Ozone,
+     main = "Ozone vs Solar Radiation",
+     xlab = "Solar Radiation", ylab = "Ozone")
+
+# Boxplot
+boxplot(df$Ozone ~ df$Month,
+        main = "Ozone by Month",
+        xlab = "Month", ylab = "Ozone")
+
+# Histogram
+hist(df$Wind,
+     main = "Wind Distribution",
+     xlab = "Wind")
+
+# Line plot (time series)
+df$Date <- as.Date(with(df, paste(1973, Month, Day, sep = "-")))
+plot(df$Date, df$Ozone, type = "l",
+     main = "Ozone Over Time",
+     xlab = "Date", ylab = "Ozone")
