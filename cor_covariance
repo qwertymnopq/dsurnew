@@ -12,24 +12,21 @@ b) Plot the correlation plot on dataset and visualize giving an overview of rela
 Code:
 
     install.packages("corrplot")
-    library(corrplot)
-    cor_matrix <- cor(iris[, 1:4])
-    corrplot(cor_matrix, method="circle", type="upper", tl.col="black", tl.srt=45, 
-             addCoef.col="blue", title="Correlation Plot for Iris Dataset")
-    
-        title = "Correlation Plot for Iris Dataset"
-    )
+    library("corrplot")
+    data(iris)
+    head(iris)
+    numeric_data <- iris[, 1:4]
+    cor_matrix <- cor(numeric_data)
+    print("Correlation Matrix:")
+    print(round(cor_matrix, 2))
+    corrplot(cor_matrix, method = "color", addCoef.col = "black", tl.col = "black")
 
-c)Plot the correlation plot on dataset and visualize giving an overview of relationships among data on iris data
 
-Code:
+c)	Analysis of covariance: variance (ANOVA), if data have categorical variables on iris data
 
-    install.packages("corrplot")
-    library(corrplot)
-    cor_matrix <- cor(iris[, 1:4])
-    corrplot(cor_matrix, method="circle", type="upper", tl.col="black", tl.srt=45, 
-             addCoef.col="blue", title="Correlation Plot for Iris Dataset")
-    
-        title = "Correlation Plot for Iris Dataset"
-    )
+# Load iris dataset
+data(iris)
+head(iris)
+anova_model <- aov(Sepal.Length ~ Species, data = iris)
+summary(anova_model)
 
